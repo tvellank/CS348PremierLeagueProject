@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<style>
+table {
+    counter-reset: tableCount;   
+}
+
+.container {
+  display: flex;
+}
+
+.center {
+  text-align: center;
+  margin: auto;
+  width: 50%;
+  border: 6px solid #009879;
+  padding: 10px;
+}
+
+/* CSS */
+.button-1 {
+  appearance: none;
+  background-color: #009879;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 25%;
+}
+
+.button-1:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.button-1:hover {
+  background-color: #2c974b;
+}
+
+.button-1:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.button-1:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.button-1:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+
+/* CSS */
+.button-3 {
+  appearance: none;
+  background-color: #009879;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.button-3:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.button-3:hover {
+  background-color: #2c974b;
+}
+
+.button-3:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.button-3:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.button-3:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+</style> 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+    <!-- HTML !-->
+    <div class="container">
+    <button class="button-1" role="button"><a href="/polls/teamstats/{{team_name}}" style="color: #ffffff;">stats page</a></button>
+    <h1 class="center">{{team}} Add Player/Coach</h1>
+    <button class="button-1" role="button"><a href="/polls/teamstats/{{team_name}}/range" style="color: #ffffff;">range reports</a></button>
+    </div>
+    <table class="styled-table" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    Coach Name
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    All Time Record
+                </th>
+                <th>
+                    Season Record
+                </th>
+            </tr>
+        </thead>
+
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="cName" size="18%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="cAge" size="18%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="all_time_record" size="18%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="season_record" size="18%">
+                <button type="submit" class="button-3" id="mybtn1">Add Coach</button>
+            </div>
+        </td>
+
+    </table>
+    <table class="styled-table" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Jersey No.
+                </th>
+                <th>
+                    Goals
+                </th>
+                <th>
+                    Assists
+                </th>
+                <th>
+                    Positions
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Shots Taken
+                </th>
+                <th>
+                    Yellow
+                </th>
+                <th>
+                    Red
+                </th>
+                <th>
+                    Saves
+                </th>
+            </tr>
+        </thead>
+        
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="name" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="number" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="goals" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="assists" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="position" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="age" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="shots_attempted" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="yellow_cards" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="red_cards" size="5%">
+            </div>
+        </td>
+        <td>
+            <div style="float: left;">
+                <input type="text" placeholder=".." id="saves" size="5%">
+                <button type="submit" class="button-3" id="mybtn2">Add Player</button>
+            </div>
+        </td>
+    </table>
+
+    <script>
+        document.getElementById("mybtn1").onclick = function () {
+            console.log("in submit");
+            input2 = document.getElementById("cName");
+            cName = input2.value;
+            input3 = document.getElementById("cAge");
+            cAge = input3.value;
+            input4 = document.getElementById("all_time_record");
+            all_time_record = input4.value;
+            input5 = document.getElementById("season_record");
+            season_record = input5.value;
+            location.href = "?add=1&cName="+cName+"&cAge="+cAge+"&all_time_record="+all_time_record+"&season_record="+season_record;
+            window.alert("Add Coach Submitted")
+        };
+
+        document.getElementById("mybtn2").onclick = function () {
+            input7 = document.getElementById("name");
+            name = input7.value;
+            input8 = document.getElementById("number");
+            number = input8.value;
+            input9 = document.getElementById("goals");
+            goals = input9.value;
+            input10 = document.getElementById("assists");
+            assists = input10.value;
+            input11 = document.getElementById("position");
+            position = input11.value;
+            input12 = document.getElementById("age");
+            age = input12.value;
+            input13 = document.getElementById("shots_attempted");
+            shots_attempted = input13.value;
+            input14 = document.getElementById("yellow_cards");
+            yellow_cards = input14.value;
+            input15 = document.getElementById("red_cards");
+            red_cards = input15.value;
+            input16 = document.getElementById("saves");
+            saves = input16.value;
+            location.href = "?add=2&name="+name+"&number="+number+"&goals="+goals+"&assists="+assists+"&position="+position+"&age="+age+"&shots_attempted="+shots_attempted+"&yellow_cards="+yellow_cards+"&red_cards="+red_cards+"&saves="+saves;
+            window.alert("Add Player Submitted")
+        };
+    </script>        
+</body>
