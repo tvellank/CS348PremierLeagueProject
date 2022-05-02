@@ -48,3 +48,4 @@ class Game(models.Model):
     location = models.CharField(max_length=100)
     time = models.DateTimeField()
 
+

@@ -308,3 +308,93 @@ def teamListAdd(request):
                 .format(name=name, points=points, league_position=league_position, salary=salary, record=record, stadium=stadium)
         cursor.execute(query)
     return render(request, 'teamlistadd.html', context)
+
+def gameList(request):
+
+    #fetching data for team stats table
+    from django.core import serializers
+    #data = serializers.serialize("python", models.Players.objects.filter(team=team_name))
+    #coach = serializers.serialize("python", models.Coach.objects.filter(team=team_name))
+    #team = models.Coach.objects.raw('SELECT id, name FROM polls_team WHERE id = %s', [team_name])
+
+    #teams = ""
+    #for t in team:
+    #    teams = t.name
+    
+    order_by1 = request.GET.get('order_by2', 'id')
+    order_by2 = request.GET.get('order_by1', 'id')
+
+    data = serializers.serialize("python", models.Game.objects.all().order_by(order_by1))
+
+    #make these queries prepared statements
+    filter_by = request.GET.get('filter_by', '0')
+    if filter_by == "1":
+
+        data = models.Game.objects.all()
+        score = request.GET.get('score', '')
+        location = request.GET.get('location', '')
+        time = request.GET.get('time', '')
+    
+
+        if score != "":
+            data = data.filter(score = score)
+        if location != '':
+            data = data.filter(location = location)
+        if time != "":
+            data = data.filter(time = time)
+        
+        data = serializers.serialize("python", data.order_by(order_by1))
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'gamelist.html', context)
+
+def gameListRange(request):
+    
+    #fetching data for team stats table
+    from django.core import serializers
+    #data = serializers.serialize("python", models.Players.objects.filter(team=team_name))
+    #coach = serializers.serialize("python", models.Coach.objects.filter(team=team_name))
+    
+    order_by1 = request.GET.get('order_by2', 'id')
+    order_by2 = request.GET.get('order_by1', 'id')
+    data = serializers.serialize("python", models.Game.objects.all().order_by(order_by1))
+    query = request.GET.get('query', '')
+    qs = set()
+    if query != "":
+        q = 'SELECT * FROM polls_game WHERE {query}'.format(query=query)
+        for c in models.Team.objects.raw(q):
+            qs.add(c)
+        data = serializers.serialize("python", qs)
+
+    context = {
+        'data': data,
+    }
+
+    return render(request, 'gamelistrange.html', context)
+
+def gameListAdd(request):
+
+    #fetching data for team stats table
+    from django.core import serializers
+    #data = serializers.serialize("python", models.Players.objects.filter(team=team_name))
+    #coach = serializers.serialize("python", models.Coach.objects.filter(team=team_name))
+    context = {
+    }
+    add = request.GET.get('add', '0')
+    if add == "1":
+
+        score = request.GET.get('score', '')
+        location = request.GET.get('location', '')
+        time = request.GET.get('time', '')
+    
+
+        cursor = connections['default'].cursor()
+
+        query = "INSERT INTO polls_team (score, location, time) VALUES \
+            (\"{Score}\", {location}, {time})"\
+                .format(score = score, location = location, time = time)
+        cursor.execute(query)
+    return render(request, 'gamelistadd.html', context)
