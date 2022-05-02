@@ -205,3 +205,106 @@ def teamStatsAdd(request, team_name):
         query = "INSERT INTO polls_players (name, age, number, goals, assists, position, shots_attempted, yellow_cards, red_cards, saves, team_id) VALUES (\"{name}\", {age}, {number}, {goals}, {assists}, \"{position}\", {shots_attempted}, {yellow_cards}, {red_cards}, {saves}, {team_id})".format(name=name, age=age, number=number, goals=goals, assists=assists, position=position, shots_attempted=shots_attempted, yellow_cards=yellow_cards, red_cards=red_cards, saves=saves, team_id=team_name)
         cursor.execute(query)
     return render(request, 'teamstatsadd.html', context)
+
+def teamList(request):
+
+    #fetching data for team stats table
+    from django.core import serializers
+    #data = serializers.serialize("python", models.Players.objects.filter(team=team_name))
+    #coach = serializers.serialize("python", models.Coach.objects.filter(team=team_name))
+    #team = models.Coach.objects.raw('SELECT id, name FROM polls_team WHERE id = %s', [team_name])
+
+    #teams = ""
+    #for t in team:
+    #    teams = t.name
+    
+    order_by1 = request.GET.get('order_by2', 'id')
+    order_by2 = request.GET.get('order_by1', 'id')
+
+    data = serializers.serialize("python", models.Team.objects.all().order_by(order_by1))
+
+    #make these queries prepared statements
+    filter_by = request.GET.get('filter_by', '0')
+    if filter_by == "1":
+
+        data = models.Team.objects.all()
+        id = request.GET.get('id', '')
+        name = request.GET.get('name', '')
+        points = request.GET.get('points', '')
+        league_position = request.GET.get('league_position', '')
+        salary = request.GET.get('salary', '')
+        record = request.GET.get('record', '')
+        stadium = request.GET.get('stadium', '')
+
+        if id != "":
+            data = data.filter(id=id)
+        if name != '':
+            data = data.filter(name=name)
+        if points != "":
+            data = data.filter(points=points)
+        if league_position != "":
+            data = data.filter(league_position=league_position)
+        if salary != "":
+            data = data.filter(salary=salary)
+        if record != '':
+            data = data.filter(record=record)
+        if stadium != "":
+            data = data.filter(stadium=stadium)
+        
+        data = serializers.serialize("python", data.order_by(order_by1))
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'teamlist.html', context)
+
+def teamListRange(request):
+    
+    #fetching data for team stats table
+    from django.core import serializers
+    #data = serializers.serialize("python", models.Players.objects.filter(team=team_name))
+    #coach = serializers.serialize("python", models.Coach.objects.filter(team=team_name))
+    
+    order_by1 = request.GET.get('order_by2', 'id')
+    order_by2 = request.GET.get('order_by1', 'id')
+    data = serializers.serialize("python", models.Team.objects.all().order_by(order_by1))
+    query = request.GET.get('query', '')
+    qs = set()
+    if query != "":
+        q = 'SELECT * FROM polls_team WHERE {query}'.format(query=query)
+        for c in models.Team.objects.raw(q):
+            qs.add(c)
+        data = serializers.serialize("python", qs)
+
+    context = {
+        'data': data,
+    }
+
+    return render(request, 'teamlistrange.html', context)
+
+def teamListAdd(request):
+
+    #fetching data for team stats table
+    from django.core import serializers
+    #data = serializers.serialize("python", models.Players.objects.filter(team=team_name))
+    #coach = serializers.serialize("python", models.Coach.objects.filter(team=team_name))
+    context = {
+    }
+    add = request.GET.get('add', '0')
+    if add == "1":
+
+        name = request.GET.get('name', '')
+        points = request.GET.get('points', '')
+        league_position = request.GET.get('league_position', '')
+        salary = request.GET.get('salary', '')
+        record = request.GET.get('record', '')
+        stadium = request.GET.get('stadium', '')
+
+        cursor = connections['default'].cursor()
+
+        query = "INSERT INTO polls_team (name, points, league_position, salary, record, stadium) VALUES \
+            (\"{name}\", {points}, {league_position}, {salary}, \"{record}\", \"{stadium}\")"\
+                .format(name=name, points=points, league_position=league_position, salary=salary, record=record, stadium=stadium)
+        cursor.execute(query)
+    return render(request, 'teamlistadd.html', context)
