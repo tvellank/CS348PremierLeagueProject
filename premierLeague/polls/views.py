@@ -7,10 +7,12 @@ from django.http import HttpResponse
 from . import models
 from django.db import connections
 # from models import Coach, Players
-
+from django.db import transaction
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, 'index.html')
+
+
 
 
 def detail(request, question_id):
@@ -24,6 +26,9 @@ def results(request, question_id):
 
 def vote(request, question_id):
     return HttpResponse("You're voting on question %s." % question_id)
+
+@transaction.atomic()
+
 
 def teamStats(request, team_name):
 
@@ -112,6 +117,8 @@ def teamStats(request, team_name):
 
     return render(request, 'teamstats.html', context)
 
+@transaction.atomic()
+
 def teamStatsRange(request, team_name):
     
     #fetching data for team stats table
@@ -161,6 +168,8 @@ def teamStatsRange(request, team_name):
 
     return render(request, 'teamstatsrange.html', context)
 
+@transaction.atomic()
+
 def teamStatsAdd(request, team_name):
 
     #fetching data for team stats table
@@ -205,6 +214,7 @@ def teamStatsAdd(request, team_name):
         query = "INSERT INTO polls_players (name, age, number, goals, assists, position, shots_attempted, yellow_cards, red_cards, saves, team_id) VALUES (\"{name}\", {age}, {number}, {goals}, {assists}, \"{position}\", {shots_attempted}, {yellow_cards}, {red_cards}, {saves}, {team_id})".format(name=name, age=age, number=number, goals=goals, assists=assists, position=position, shots_attempted=shots_attempted, yellow_cards=yellow_cards, red_cards=red_cards, saves=saves, team_id=team_name)
         cursor.execute(query)
     return render(request, 'teamstatsadd.html', context)
+@transaction.atomic()
 
 def teamList(request):
 
@@ -258,6 +268,7 @@ def teamList(request):
     }
 
     return render(request, 'teamlist.html', context)
+@transaction.atomic()
 
 def teamListRange(request):
     
@@ -282,6 +293,7 @@ def teamListRange(request):
     }
 
     return render(request, 'teamlistrange.html', context)
+@transaction.atomic()
 
 def teamListAdd(request):
 
@@ -308,6 +320,8 @@ def teamListAdd(request):
                 .format(name=name, points=points, league_position=league_position, salary=salary, record=record, stadium=stadium)
         cursor.execute(query)
     return render(request, 'teamlistadd.html', context)
+
+@transaction.atomic()
 
 def gameList(request):
 
@@ -350,6 +364,7 @@ def gameList(request):
     }
 
     return render(request, 'gamelist.html', context)
+@transaction.atomic()
 
 def gameListRange(request):
     
@@ -374,6 +389,7 @@ def gameListRange(request):
     }
 
     return render(request, 'gamelistrange.html', context)
+@transaction.atomic()
 
 def gameListAdd(request):
 
